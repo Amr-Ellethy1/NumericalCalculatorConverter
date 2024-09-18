@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محول الأنظمة العددية</title>
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts للخطوط -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f0f4f8;
+            text-align: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1 {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1.1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #007BFF;
+        }
+
+        p {
+            font-size: 1.2rem;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px auto;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .copy-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #007BFF;
+            transition: color 0.3s ease;
+        }
+
+        .copy-icon:hover {
+            color: #0056b3;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .support a, .copyright a {
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .support a:hover, .copyright a:hover {
+            color: #0056b3;
+        }
+
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        .dark-mode .container {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        .dark-mode input, .dark-mode select, .dark-mode button {
+            background-color: #333;
+            color: white;
+            border-color: #555;
+        }
+
+        .dark-mode button:hover {
+            background-color: #444;
+        }
+
+        .dark-mode p {
+            background-color: #2a2a2a;
+        }
+
+        .dark-mode .copy-icon {
+            color: white;
+        }
+
+        .dark-mode .copy-icon:hover {
+            color: #bbb;
+        }
+
+        .dark-mode .support a, .dark-mode .copyright a {
+            color: #bbb;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            p {
+                font-size: 1rem;
+                padding: 8px;
+            }
+
+            button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>محول الأنظمة العددية</h1>
+
+    <div class="container">
+        <input type="text" id="inputNumber" placeholder="أدخل الرقم هنا (مثال: 1010)">
+        <select id="inputBase">
+            <option value="10">عشري (Decimal)</option>
+            <option value="16">سادس عشري (Hexadecimal)</option>
+            <option value="2">ثنائي (Binary)</option>
+        </select>
+        <button onclick="convert()">تحويل</button>
+
+        <h2>النتائج:</h2>
+        <p>عشري: <span id="decimalOutput"></span>
+            <i class="fas fa-copy copy-icon" onclick="copyToClipboard('decimalOutput')" title="نسخ"></i>
+        </p>
+        <p>ثنائي: <span id="binaryOutput"></span>
+            <i class="fas fa-copy copy-icon" onclick="copyToClipboard('binaryOutput')" title="نسخ"></i>
+        </p>
+        <p>سادس عشري: <span id="hexOutput"></span>
+            <i class="fas fa-copy copy-icon" onclick="copyToClipboard('hexOutput')" title="نسخ"></i>
+        </p>
+    </div>
+
+    <!-- قسم الدعم الفني وحقوق النشر -->
+    <div class="footer">
+        <div class="support">
+            <a href="mailto:support@example.com">تواصل مع الدعم الفني</a>
+        </div>
+        <div class="copyright">
+            <a href="https://www.facebook.com/profile.php?id=100046852330317&mibextid=ZbWKwL" target="_blank">
+                جميع الحقوق محفوظة لـ Amr Ellethy
+            </a>
+        </div>
+    </div>
+
+    <button onclick="toggleDarkMode()">تبديل الوضع الليلي</button>
+
+    <script>
+        function convert() {
+            let inputNumber = document.getElementById('inputNumber').value;
+            let inputBase = document.getElementById('inputBase').value;
+
+            let decimalNumber;
+
+            try {
+                if (inputBase == "10") {
+                    decimalNumber = parseInt(inputNumber, 10);
+                } else if (inputBase == "16") {
+                    decimalNumber = parseInt(inputNumber, 16);
+                } else if (inputBase == "2") {
+                    decimalNumber = parseInt(inputNumber, 2);
+                }
+
+                if (isNaN(decimalNumber)) {
+                    throw "الرجاء إدخال رقم صالح.";
+                }
+
+                document.getElementById('decimalOutput').textContent = decimalNumber.toString(10);
+                document.getElementById('binaryOutput').textContent = decimalNumber.toString(2);
+                document.getElementById('hexOutput').textContent = decimalNumber.toString(16).toUpperCase();
+            } catch (error) {
+                alert(error);
+                document.getElementById('decimalOutput').textContent = "";
+                document.getElementById('binaryOutput').textContent = "";
+                document.getElementById('hexOutput').textContent = "";
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            var text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(function() {
+                alert("تم النسخ بنجاح: " + text);
+            }, function() {
+                alert("فشل النسخ");
+            });
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>
